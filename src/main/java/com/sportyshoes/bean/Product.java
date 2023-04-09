@@ -1,4 +1,4 @@
-package bean;
+package com.sportyshoes.bean;
 
 import org.springframework.stereotype.Component;
 

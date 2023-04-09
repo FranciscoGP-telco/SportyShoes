@@ -33,4 +33,5 @@ build/
 .vscode/
 
 ###sql config###
-src/resources/application.properties
+src/main/resources/application.properties
+src/main/resources/application.properties

@@ -1,4 +1,4 @@
-package bean;
+package com.sportyshoes.bean;
 
 import org.springframework.stereotype.Component;
 
@@ -86,10 +86,6 @@ public class User {
     }
 
     public Boolean isAdmin() {
-        return this.admin;
-    }
-
-    public Boolean getAdmin() {
         return this.admin;
     }
 

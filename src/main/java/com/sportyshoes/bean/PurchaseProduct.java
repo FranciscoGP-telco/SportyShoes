@@ -1,4 +1,4 @@
-package bean;
+package com.sportyshoes.bean;
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Column;
@@ -16,13 +16,11 @@ public class PurchaseProduct {
     @Id
     @ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "purchase_id", nullable = false)
-    @Column(name = "purchase_id")
     private Purchase purchase;
 
     @Id
     @ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "product_id", nullable = false)
-    @Column(name = "product_id")
     private Product product;
     private int amount;
     
