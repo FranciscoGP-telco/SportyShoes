@@ -26,8 +26,8 @@ public class User {
     @Column(name="phone_number")
     private int phoneNumber;
     private String address;
-    private Boolean admin;
-
+    private Boolean admin = false;
+    private String password;
 
     public int getUserId() {
         return this.userId;
@@ -93,6 +93,14 @@ public class User {
         this.admin = admin;
     }
 
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "{" +
@@ -104,7 +112,9 @@ public class User {
             ", phoneNumber='" + getPhoneNumber() + "'" +
             ", address='" + getAddress() + "'" +
             ", admin='" + isAdmin() + "'" +
+            ", password='" + getPassword() + "'" +
             "}";
     }
-    
+
+
 }

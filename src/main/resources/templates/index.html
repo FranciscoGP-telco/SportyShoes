@@ -6,17 +6,22 @@
     <title>SportyShoes</title>
 </head>
 <body>
-    <h2>Login Webpage</h2>
-    <form action="#" th:action="@{/signIn}" th:object="${login}" method="post">
-        <label>EmailId</label>
-        <input type="email" th:field="*{emailid}"/><br/>
+    <h2>Main webpage</h2>
+    <form action="#" th:action="@{/}" th:object="${user}" method="post">
+        <label>User Name</label>
+        <input type="text" th:field="*{userName}"/><br/>
         <label>Password</label>
         <input type="password" th:field="*{password}"/><br/>
-        <label>Typeofuser</label><br/>
         <br/>
         <input type="submit" value="SignIn"/>
     </form>
+    <div th:if="${loggingError != null}">    
+        Invalid username and password.
+    </div>
+    <div th:if="${loggingNeedError != null}">    
+        You must be logged to access this webPage.
+    </div>
     <br/>
-    <a th:href="@{/openSignUp}">SignUp</a>
+    <a th:href="@{/signup}">SignUp!</a>
 </body>
 </html>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>SportyShoes - SignUp</title>
+    </head>
+<body>
+    <h2>User registration</h2>
+    <form action="#" th:action="@{/signup}" th:object="${user}" method="post">
+        <label>User Name</label>
+        <input type="text" th:field="*{userName}" required/><br/>
+        <label>Name</label>
+        <input type="text" th:field="*{name}" required/><br/>
+        <label>Last Name</label>
+        <input type="text" th:field="*{lastName}"/><br/>
+        <label>Phone Number</label>
+        <input type="number" th:field="*{phoneNumber}"/><br/>
+        <label>Address</label>
+        <input type="text" th:field="*{address}"/><br/>
+        <label>Email</label>
+        <input type="email" th:field="*{email}" required/><br/>
+        <label>Password</label>
+        <input type="password" th:field="*{password}" required/><br/>
+        <br/>
+        <input type="submit" value="signup"/>
+    </form>
+</body>
+</html>

@@ -22,8 +22,10 @@ public class Purchase {
     private int purchaseId;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", nullable = false)
-    private Product product;
     private User user;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
     public int getPurchaseId() {
         return this.purchaseId;
