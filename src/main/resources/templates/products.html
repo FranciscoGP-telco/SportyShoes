@@ -10,17 +10,21 @@
 <body>
     <table border="1">
         <tr>
-            <th>Product ID</th>
             <th>Product Name</th>
             <th>Category</th>	
             <th>Price</th>
+            <th>Buy</th>
         </tr>
         <tr th:each="product:${listOfProducts}">
             <td th:text="${product.productId}"></td>
             <td th:text="${product.productName}"></td>
             <td th:text="${product.productCategory}"></td>
             <td th:text="${product.productPrice}"></td>
+            <td><a th:href="@{/orderProduct/{productId} (productId=${product.productId}) }">Add to cart</a></td>
         </tr>
     </table>
+    <br>
+    <h2>Go to the shopping cart to confirm the purchase!</h2>
+    <a th:href="@{/shoppingCart}">Shopping Cart</a>
 </body>
 </html>

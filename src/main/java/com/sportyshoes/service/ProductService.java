@@ -33,5 +33,9 @@ public class ProductService {
         }
     }
 
+    public Product getProductById(int productId){
+        return productRepository.getReferenceById(productId);
+    }
+
     
 }

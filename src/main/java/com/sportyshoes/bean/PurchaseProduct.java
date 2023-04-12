@@ -14,8 +14,6 @@ import jakarta.persistence.Table;
 @Component
 @Table(name="purchaseproducts")
 public class PurchaseProduct {
-    private int amount;
-    
     @EmbeddedId
     private PurchaseProductKey purchaseProductKey;
 
@@ -46,21 +44,12 @@ public class PurchaseProduct {
         this.purchaseProductKey.product = product;
     }
 
-    public int getAmount() {
-        return this.amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-    
 
     @Override
     public String toString() {
         return "{" +
             " purchase='" + getPurchase() + "'" +
             ", product='" + getProduct() + "'" +
-            ", amount='" + getAmount() + "'" +
             "}";
     }
 
