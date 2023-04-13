@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.sportyshoes.bean.User;
-import com.sportyshoes.repository.UserRepository;
 import com.sportyshoes.service.UserService;
 
 import jakarta.servlet.http.HttpSession;

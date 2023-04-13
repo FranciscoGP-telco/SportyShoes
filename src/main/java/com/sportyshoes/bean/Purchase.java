@@ -23,9 +23,6 @@ public class Purchase {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", nullable = false)
     private User user;
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "product_id", nullable = false)
-    private Product product;
 
     public int getPurchaseId() {
         return this.purchaseId;
@@ -33,14 +30,6 @@ public class Purchase {
 
     public void setPurchaseId(int purchaseId) {
         this.purchaseId = purchaseId;
-    }
-
-    public Product getProduct() {
-        return this.product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 
     public User getUser() {
@@ -55,7 +44,6 @@ public class Purchase {
     public String toString() {
         return "{" +
             " purchaseId='" + getPurchaseId() + "'" +
-            ", product='" + getProduct() + "'" +
             ", user='" + getUser() + "'" +
             "}";
     }

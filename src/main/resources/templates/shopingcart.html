@@ -3,9 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product List</title>
+    <title>Shoping Cart</title>
 </head>
 <body>
     <table border="1">
@@ -13,14 +11,11 @@
             <th>Product Name</th>
             <th>Category</th>	
             <th>Price</th>
-            <th>Buy</th>
         </tr>
         <tr th:each="product:${listOfProducts}">
-            <td th:text="${product.productId}"></td>
             <td th:text="${product.productName}"></td>
             <td th:text="${product.productCategory}"></td>
             <td th:text="${product.productPrice}"></td>
-            <td><a th:href="@{/orderProduct/{productId} (productId=${product.productId}) }">Add to cart</a></td>
         </tr>
     </table>
     <br>

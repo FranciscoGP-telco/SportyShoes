@@ -1,6 +1,5 @@
 package com.sportyshoes.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.sportyshoes.bean.Product;
+import com.sportyshoes.bean.Purchase;
+import com.sportyshoes.bean.PurchaseProduct;
 import com.sportyshoes.bean.User;
 import com.sportyshoes.service.ProductService;
+import com.sportyshoes.service.PurchaseService;
+import com.sportyshoes.service.PurchasesProductService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -24,6 +27,12 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
+    @Autowired
+    PurchaseService purchaseService;
+
+    @Autowired
+    PurchasesProductService purchasesProductService;
+    
     @GetMapping("/products")
     public String listAllProducts(Model model, Product product, HttpSession httpSession, User user) {
         if(httpSession.getAttribute("user") != null){
@@ -38,27 +47,31 @@ public class ProductController {
     }
 
     @GetMapping(value="orderProduct/{productId}")
-    public String addProductToCart(Model model, HttpSession httpSession, User user, @PathVariable("productId") int productId){
-        List<Product> productsToBuy = new ArrayList<Product>();
+    public String addProductToCart(Model model, HttpSession httpSession, User user, @PathVariable("productId") int productId, PurchaseProduct purchaseProduct){
+        Purchase purchase = null;
         //Checking if the user is logged
         if(httpSession.getAttribute("user") != null){
-            //Checking if we have more articles in the list. If not, we create it
-            if(httpSession.getAttribute("productsToBuy") == null) {
-                httpSession.setAttribute("productsToBuy", productsToBuy);
+            //Checking if we have more an purchase created
+            if(httpSession.getAttribute("purchase") == null) {
+                //if not, create one
+                purchase = new Purchase();
+                User logedUser = (User)httpSession.getAttribute("user");
+                purchase.setUser(logedUser);
+                purchaseService.createPurchase(purchase);
             } else {
-                productsToBuy = (List<Product>)httpSession.getAttribute("productsToBuy");
+                purchase = (Purchase)httpSession.getAttribute("purchase");
             }
-            //Searching for the product. If we find it, we adding to the shopping Cart variable session
+            //Searching for the product. If we find it, we adding to the purchase
             Product product = productService.getProductById(productId);
-            
-            if(product != null){
-                productsToBuy.add(product);
+            if(product != null && purchase != null){
+                purchasesProductService.addPurchasedProduct(purchase, product, purchaseProduct);
             }
-            System.out.println(productsToBuy.toString());
+            //System.out.println(productsToBuy.toString());
             return "redirect:/products";
         } else {
             model.addAttribute("loggingNeedError","loggingNeedError");
             model.addAttribute("user", user);
+            //Send also purchasesProducts and print all.
             return "index";
         }
     }
@@ -68,6 +81,7 @@ public class ProductController {
         //Checking if the user is logged
         if(httpSession.getAttribute("user") != null){
             model.addAttribute("user", user);
+            model.addAttribute("productsToBuy", httpSession.getAttribute("productsToBuy"));
             return "shopingcart";
         } else {
             model.addAttribute("loggingNeedError","loggingNeedError");

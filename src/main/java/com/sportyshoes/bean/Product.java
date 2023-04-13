@@ -23,6 +23,8 @@ public class Product {
     private String productCategory;
     @Column(name = "price")
     private float productPrice;
+    private float quantity;
+
 
     public int getProductId() {
         return this.productId;
@@ -56,6 +58,14 @@ public class Product {
         this.productPrice = productPrice;
     }
 
+    public float getQuantity() {
+        return this.quantity;
+    }
+
+    public void setQuantity(float quantity) {
+        this.quantity = quantity;
+    }
+
     @Override
     public String toString() {
         return "{" +
@@ -63,7 +73,9 @@ public class Product {
             ", productName='" + getProductName() + "'" +
             ", productCategory='" + getProductCategory() + "'" +
             ", productPrice='" + getProductPrice() + "'" +
+            ", quantity='" + getQuantity() + "'" +
             "}";
     }
+
 
 }
