@@ -24,7 +24,12 @@
         </tr>
     </table>
     <br>
-    <h2>Go to the shopping cart to confirm the purchase!</h2>
+    <h2>---Shoping Cart---</h2>
+    <tr th:each="productsPurchased:${purchasedProductsCurrently}">
+        <td th:text="${productsPurchased.purchase}"></td>
+        <td th:text="${productsPurchased.product}"></td>
+    </tr>
+    <h2>Confirm the purchase!</h2>
     <a th:href="@{/shopingCart}">Shopping Cart</a>
 </body>
 </html>

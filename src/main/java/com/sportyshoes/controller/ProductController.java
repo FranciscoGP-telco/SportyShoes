@@ -15,6 +15,7 @@ import com.sportyshoes.bean.User;
 import com.sportyshoes.service.ProductService;
 import com.sportyshoes.service.PurchaseService;
 import com.sportyshoes.service.PurchasesProductService;
+import com.sportyshoes.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -33,6 +34,9 @@ public class ProductController {
     @Autowired
     PurchasesProductService purchasesProductService;
     
+    @Autowired
+    UserService userService;
+
     @GetMapping("/products")
     public String listAllProducts(Model model, Product product, HttpSession httpSession, User user) {
         if(httpSession.getAttribute("user") != null){
@@ -47,7 +51,7 @@ public class ProductController {
     }
 
     @GetMapping(value="orderProduct/{productId}")
-    public String addProductToCart(Model model, HttpSession httpSession, User user, @PathVariable("productId") int productId, PurchaseProduct purchaseProduct){
+    public String addProductToCart(Model model, HttpSession httpSession, User user, @PathVariable("productId") int productId){
         Purchase purchase = null;
         //Checking if the user is logged
         if(httpSession.getAttribute("user") != null){
@@ -56,7 +60,8 @@ public class ProductController {
                 //if not, create one
                 purchase = new Purchase();
                 User logedUser = (User)httpSession.getAttribute("user");
-                purchase.setUser(logedUser);
+                User userToPurchase = userService.getUserByName(logedUser.getUserName());
+                purchase.setUser(userToPurchase);
                 purchaseService.createPurchase(purchase);
             } else {
                 purchase = (Purchase)httpSession.getAttribute("purchase");
@@ -64,14 +69,19 @@ public class ProductController {
             //Searching for the product. If we find it, we adding to the purchase
             Product product = productService.getProductById(productId);
             if(product != null && purchase != null){
-                purchasesProductService.addPurchasedProduct(purchase, product, purchaseProduct);
+                PurchaseProduct purchaseProduct = new PurchaseProduct();
+                purchaseProduct.setProduct(product);
+                purchaseProduct.setPurchase(purchase);
+                System.out.println(purchaseProduct.toString());
+                purchasesProductService.addPurchasedProduct(purchaseProduct);
             }
-            //System.out.println(productsToBuy.toString());
+            List <PurchaseProduct> purchasedProductsCurrently = purchasesProductService.listAllProductsOfPurchase(purchase);
+            System.out.println(purchasedProductsCurrently);
+            model.addAttribute("purchasedProductsCurrently", purchasedProductsCurrently);
             return "redirect:/products";
         } else {
             model.addAttribute("loggingNeedError","loggingNeedError");
             model.addAttribute("user", user);
-            //Send also purchasesProducts and print all.
             return "index";
         }
     }
