@@ -1,5 +1,7 @@
 package com.sportyshoes.bean;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Column;
@@ -7,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -28,6 +31,10 @@ public class User {
     private String address;
     private Boolean admin = false;
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    private List<Purchase> userPurchases;
+
 
     public int getUserId() {
         return this.userId;
@@ -89,6 +96,10 @@ public class User {
         return this.admin;
     }
 
+    public Boolean getAdmin() {
+        return this.admin;
+    }
+
     public void setAdmin(Boolean admin) {
         this.admin = admin;
     }
@@ -100,6 +111,15 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public List<Purchase> getUserPurchases() {
+        return this.userPurchases;
+    }
+
+    public void setUserPurchases(List<Purchase> userPurchases) {
+        this.userPurchases = userPurchases;
+    }
+
 
     @Override
     public String toString() {
@@ -113,8 +133,8 @@ public class User {
             ", address='" + getAddress() + "'" +
             ", admin='" + isAdmin() + "'" +
             ", password='" + getPassword() + "'" +
+            ", userPurchases='" + getUserPurchases() + "'" +
             "}";
     }
-
 
 }

@@ -26,4 +26,5 @@ public class PurchaseService {
     public List<Purchase> getAllPurchases(){
         return purchasesRepository.findAll();
     }
+
 }

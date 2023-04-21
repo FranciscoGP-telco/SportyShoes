@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Purchase</title>
+</head>
+<body>
+    <h2>User details</h2>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>LastName</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Address</th>
+        </tr>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.phoneNumber}"></td>
+        <td th:text="${user.address}"></td>
+    </table>
+    <h2>List of products</h2>
+    <table border="1">
+        <tr>
+            <th>Product Name</th>
+            <th>Price</th>
+        </tr>
+        <tr th:each="productsPurchased:${purchasedProductsCurrently}">
+            <td th:text="${productsPurchased.productName}"></td>
+            <td th:text="${productsPurchased.productPrice}"></td>
+        </tr>
+    </table>
+    <h3>Total price:</h3>
+    <td th:text="${totalPrice}"></td>
+    <h3>Push here to confirm the purchase:</h3>
+    <a th:href="@{/purchase}">Buy!</a>
+</body>
+</html>

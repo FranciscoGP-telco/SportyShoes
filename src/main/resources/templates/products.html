@@ -25,10 +25,16 @@
     </table>
     <br>
     <h2>---Shoping Cart---</h2>
-    <tr th:each="productsPurchased:${purchasedProductsCurrently}">
-        <td th:text="${productsPurchased.purchase}"></td>
-        <td th:text="${productsPurchased.product}"></td>
+    <table border="1">
+    <tr>
+        <th>Product Name</th>
+        <th>Price</th>
     </tr>
+    <tr th:each="productsPurchased:${purchasedProductsCurrently}">
+        <td th:text="${productsPurchased.productName}"></td>
+        <td th:text="${productsPurchased.productPrice}"></td>
+    </tr>
+    </table>
     <h2>Confirm the purchase!</h2>
     <a th:href="@{/shopingCart}">Shopping Cart</a>
 </body>

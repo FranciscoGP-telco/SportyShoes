@@ -1,5 +1,7 @@
 package com.sportyshoes.bean;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Column;
@@ -7,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,6 +27,9 @@ public class Product {
     @Column(name = "price")
     private float productPrice;
     private float quantity;
+
+    @ManyToMany(mappedBy = "purchaseproductsProducts")
+    private List<Purchase> purchaseproductsPurchases;
 
 
     public int getProductId() {
@@ -66,6 +72,15 @@ public class Product {
         this.quantity = quantity;
     }
 
+    public List<Purchase> getPurchaseproductsPurchases() {
+        return this.purchaseproductsPurchases;
+    }
+
+    public void setPurchaseproductsPurchases(List<Purchase> purchaseproductsPurchases) {
+        this.purchaseproductsPurchases = purchaseproductsPurchases;
+    }
+
+
     @Override
     public String toString() {
         return "{" +
@@ -74,8 +89,7 @@ public class Product {
             ", productCategory='" + getProductCategory() + "'" +
             ", productPrice='" + getProductPrice() + "'" +
             ", quantity='" + getQuantity() + "'" +
+            ", purchaseproductsPurchases='" + getPurchaseproductsPurchases() + "'" +
             "}";
     }
-
-
 }
