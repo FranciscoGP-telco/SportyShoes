@@ -8,9 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sportyshoes.bean.Product;
-import com.sportyshoes.bean.Purchase;
 import com.sportyshoes.bean.User;
 import com.sportyshoes.service.ProductService;
 import com.sportyshoes.service.PurchaseService;
@@ -32,6 +33,7 @@ public class ProductController {
     
     @Autowired
     UserService userService;
+
 
     @GetMapping("/products")
     public String listAllProducts(Model model, Product product, HttpSession httpSession, User user) {
@@ -92,31 +94,49 @@ public class ProductController {
         }
     }
 
-    @GetMapping(value="/purchase")
-    public String confirmPurchase(Model model, HttpSession httpSession, User user){
-        User userlogged = (User)httpSession.getAttribute("user");
-        userlogged = userService.getUserByName(userlogged.getUserName());
+    @GetMapping("/productmanagement")
+    public String productManagementPage(Model model, Product product, HttpSession httpSession, User user) {
+        User userlogged = (User) httpSession.getAttribute("user");
         //Checking if the user is logged
         if(userlogged != null){
-            List<Product> listOfProducts = (List<Product>) httpSession.getAttribute("purchasedProductsCurrently");
-            float totalPrice = 0;
-            for(Product product : listOfProducts){
-                totalPrice += product.getProductPrice();
+            //Check if the user is admin
+            userlogged = userService.getUserByName(userlogged.getUserName());
+            if(userlogged.isAdmin()){
+                model.addAttribute("listOfProducts", productService.listProducts());
+                return "productmanagement";
+            } else {
+                model.addAttribute("adminNeedError","adminNeedError");
+                model.addAttribute("user", user);
+                return "index";
             }
-            model.addAttribute("user", userlogged);
-            model.addAttribute("purchasedProductsCurrently", httpSession.getAttribute("purchasedProductsCurrently"));
-            model.addAttribute("totalPrice", totalPrice);
-            //creating the purchase
-            Purchase purchase = new Purchase();
-            purchase.setUser(userlogged);
-            purchase.setPurchaseproductsProducts(listOfProducts);
-            purchaseService.createPurchase(purchase);
-            return "purchase";
         } else {
             model.addAttribute("loggingNeedError","loggingNeedError");
             model.addAttribute("user", user);
             return "index";
         }
     }
-    
+
+    @PostMapping(value="updateCategory/{productId}")
+    public String updateProductCategory(Model model, HttpSession httpSession, User user, @PathVariable("productId") int productId, @RequestParam("category") String category){
+        User userlogged = (User) httpSession.getAttribute("user");
+        //Checking if the user is logged
+        if(userlogged != null){
+            //Check if the user is admin
+            userlogged = userService.getUserByName(userlogged.getUserName());
+            if(userlogged.isAdmin()){
+                Product product = productService.getProductById(productId);
+                product.setProductCategory(category);
+                productService.storeProduct(product);
+                return "redirect:/productmanagement";
+            } else {
+                model.addAttribute("adminNeedError","adminNeedError");
+                model.addAttribute("user", user);
+                return "index";
+            }
+        } else {
+            model.addAttribute("loggingNeedError","loggingNeedError");
+            model.addAttribute("user", user);
+            return "index";
+        }
+    }
 }

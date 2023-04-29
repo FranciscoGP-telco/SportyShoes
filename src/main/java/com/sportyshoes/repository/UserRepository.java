@@ -10,7 +10,8 @@ import com.sportyshoes.bean.User;
 public interface UserRepository extends JpaRepository <User, Integer> {
     List<User> findByEmail(String email);
     List<User> findByUserName(String userName);
-
+    List<User> findByUserNameIsContaining(String userName);
+    
     @Query("select user from User user where user.userName = :userName and user.password = :password")
     User signIn(
         @Param("userName") String userName,

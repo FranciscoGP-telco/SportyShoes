@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase List</title>
+</head>
+
+<body>
+    <h2>List of purchases</h2>
+    <table border="1">
+        <tr>
+            <th>Purchase Id</th>
+            <th>User Name</th>
+            <th>Last Name</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Product purchased</th>
+        </tr>
+        <tr th:each="purchase:${listOfPurchase}">
+            <td th:text="${purchase.purchaseId}"></td>
+            <td th:text="${purchase.user.userName}"></td>
+            <td th:text="${purchase.user.lastName}"></td>
+            <td th:text="${purchase.user.address}"></td>
+            <td th:text="${purchase.user.phoneNumber}"></td>
+            <td th:text="${purchase.user.email}"></td>
+            <td>
+                <li th:each="product:${purchase.purchaseproductsProducts}">
+                    <ul th:text="${product.productName}"></ul>
+                </li>
+            </td>
+        </tr>
+    </table>
+
+    <a th:href="@{/admin}">Go back</a>
+</body>
+</html>

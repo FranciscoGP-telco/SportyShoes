@@ -21,6 +21,12 @@
     <div th:if="${loggingNeedError != null}">    
         You must be logged to access this webPage.
     </div>
+    <div th:if="${purchaseDoesntFoundError != null}">    
+        We can't find this purchase
+    </div>
+    <div th:if="${adminNeedError != null}">    
+        You must be admin to access this WebPage.
+    </div>
     <br/>
     <a th:href="@{/signup}">SignUp!</a>
 </body>

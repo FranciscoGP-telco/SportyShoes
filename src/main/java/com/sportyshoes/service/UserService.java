@@ -46,4 +46,12 @@ public class UserService {
         User user = userRepository.findByUserName(name).get(0);
         return user;
     }
+
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
+    }
+
+    public List<User> getUsersFindByName(String userName){
+        return userRepository.findByUserNameIsContaining(userName);
+    }
 }
