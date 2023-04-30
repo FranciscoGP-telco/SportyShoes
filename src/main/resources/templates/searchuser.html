@@ -8,8 +8,8 @@
 <body>
     <h2>Search for users</h2>
     <form action="#" th:action="@{/searchuser}"  method="post">
-        <label>UserName:</label>
-        <input type="text" value="userName"/><br/>
+        <label>User Name:</label>
+        <input type="text" name="userName"/><br/>
         <input type="submit" value="Search"/>
     </form>
     <div th:if="${listOfUsers != null}">    

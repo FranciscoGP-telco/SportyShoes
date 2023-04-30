@@ -138,6 +138,7 @@ public class UserController {
             //Check if the user is admin
             userlogged = userService.getUserByName(userlogged.getUserName());
             if(userlogged.isAdmin()){
+                System.out.println("hola");
                 List<User> listOfUsers = userService.getUsersFindByName(userName);
                 model.addAttribute("listOfUsers", listOfUsers);
                 return "searchuser";
