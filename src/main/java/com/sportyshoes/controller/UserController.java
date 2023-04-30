@@ -20,12 +20,14 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    //Mapping to the get the main page
     @GetMapping("/")
     public String mainPage(Model model, User user){
         model.addAttribute("user", user);
         return "index";
     }
 
+    //Mapping to check the user login and check if is admin
     @PostMapping("/")
     public String signIn(Model model, User user, HttpSession httpSession){
         String result = userService.signIn(user);
@@ -41,6 +43,7 @@ public class UserController {
         }
     }
 
+    //mapping to go to the admin page
     @GetMapping("/admin")
     public String adminPage(Model model, User user, HttpSession httpSession){
         User userlogged = (User) httpSession.getAttribute("user");
@@ -63,12 +66,14 @@ public class UserController {
         }
     }
 
+    //Mapping to show the signup template
     @GetMapping("/signup")
     public String signUpPage(Model model, User user){
         model.addAttribute("user", user);
         return "signup";
     }
 
+    //Mapping to get the signup form and create the user
     @PostMapping("/signup")
     public String signUp(Model model, User user){
         String signUpResult = userService.signUp(user);
@@ -77,6 +82,7 @@ public class UserController {
         return "index";
     } 
 
+    //Mapping to get the template userlist with the list of all the users
     @GetMapping("/userlist")
     public String userList(Model model, User user, HttpSession httpSession){
         User userlogged = (User) httpSession.getAttribute("user");
@@ -100,7 +106,7 @@ public class UserController {
         }
     }
 
-
+    //Mapping to get the template searchuse
     @GetMapping("/searchuser")
     public String searchUserPage(Model model, User user, HttpSession httpSession){
         User userlogged = (User) httpSession.getAttribute("user");
@@ -123,6 +129,7 @@ public class UserController {
         }
     }
 
+    //Mapping to search for a user reading the string userName from the form
     @PostMapping("/searchuser")
     public String searchUserPostPage(Model model, User user, HttpSession httpSession, @RequestParam("userName") String userName){
         User userlogged = (User) httpSession.getAttribute("user");

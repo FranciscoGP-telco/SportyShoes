@@ -133,7 +133,6 @@ public class User {
             ", address='" + getAddress() + "'" +
             ", admin='" + isAdmin() + "'" +
             ", password='" + getPassword() + "'" +
-            ", userPurchases='" + getUserPurchases() + "'" +
             "}";
     }
 

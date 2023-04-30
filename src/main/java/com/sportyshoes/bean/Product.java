@@ -89,7 +89,6 @@ public class Product {
             ", productCategory='" + getProductCategory() + "'" +
             ", productPrice='" + getProductPrice() + "'" +
             ", quantity='" + getQuantity() + "'" +
-            ", purchaseproductsPurchases='" + getPurchaseproductsPurchases() + "'" +
             "}";
     }
 }

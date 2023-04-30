@@ -34,7 +34,7 @@ public class ProductController {
     @Autowired
     UserService userService;
 
-
+    //Mapping to the page products. Detects if the users is logged and show the page template products
     @GetMapping("/products")
     public String listAllProducts(Model model, Product product, HttpSession httpSession, User user) {
         if(httpSession.getAttribute("user") != null){
@@ -48,9 +48,11 @@ public class ProductController {
         }
     }
 
+    //Mapping to the page order products. Detects if the users is logged and add the product to the shopping chart
     @GetMapping(value="orderProduct/{productId}")
     public String addProductToCart(Model model, HttpSession httpSession, User user, @PathVariable("productId") int productId){
         User userlogged = (User) httpSession.getAttribute("user");
+        //check if a shopping chart exists
         List<Product> purchasedProductsCurrently = (List<Product>) httpSession.getAttribute("purchasedProductsCurrently");
         //Checking if the user is logged
         if(userlogged != null){
@@ -58,9 +60,10 @@ public class ProductController {
             if(purchasedProductsCurrently == null) {
                 purchasedProductsCurrently = new ArrayList<Product>();
             }
+            //adding the product to the shopping chart
             Product product = productService.getProductById(productId);
             purchasedProductsCurrently.add(product);
-            System.out.println(purchasedProductsCurrently);
+            //adding the shopping chart to the session            
             httpSession.setAttribute("purchasedProductsCurrently", purchasedProductsCurrently);
             model.addAttribute("purchasedProductsCurrently", purchasedProductsCurrently);
             model.addAttribute("listOfProducts", productService.listProducts());
@@ -72,17 +75,21 @@ public class ProductController {
         }
     }
 
+    //Mapping to the shopping cart to confirm the purchase
     @GetMapping(value="/shopingCart")
     public String shopingCartPage(Model model, HttpSession httpSession, User user){
         User userlogged = (User)httpSession.getAttribute("user");
         userlogged = userService.getUserByName(userlogged.getUserName());
         //Checking if the user is logged
         if(userlogged != null){
+            //getting the shopping cart from the session
             List<Product> listOfProducts = (List<Product>) httpSession.getAttribute("purchasedProductsCurrently");
+            //Calculating the total ammount of the purchase
             float totalPrice = 0;
             for(Product product : listOfProducts){
                 totalPrice += product.getProductPrice();
             }
+            //Sending all the values to the model and call the template confirmpurchase
             model.addAttribute("user", userlogged);
             model.addAttribute("purchasedProductsCurrently", httpSession.getAttribute("purchasedProductsCurrently"));
             model.addAttribute("totalPrice", totalPrice);
@@ -94,6 +101,7 @@ public class ProductController {
         }
     }
 
+    //Mapping to admin the product category
     @GetMapping("/productmanagement")
     public String productManagementPage(Model model, Product product, HttpSession httpSession, User user) {
         User userlogged = (User) httpSession.getAttribute("user");
@@ -102,6 +110,7 @@ public class ProductController {
             //Check if the user is admin
             userlogged = userService.getUserByName(userlogged.getUserName());
             if(userlogged.isAdmin()){
+                //returning the template productmanagement
                 model.addAttribute("listOfProducts", productService.listProducts());
                 return "productmanagement";
             } else {
@@ -116,6 +125,7 @@ public class ProductController {
         }
     }
 
+    //Mapping to update the product category
     @PostMapping(value="updateCategory/{productId}")
     public String updateProductCategory(Model model, HttpSession httpSession, User user, @PathVariable("productId") int productId, @RequestParam("category") String category){
         User userlogged = (User) httpSession.getAttribute("user");
@@ -124,7 +134,9 @@ public class ProductController {
             //Check if the user is admin
             userlogged = userService.getUserByName(userlogged.getUserName());
             if(userlogged.isAdmin()){
+                //Getting the product in the pathvariable id
                 Product product = productService.getProductById(productId);
+                //Updating the category with the value from the form. After this we come back to productmanagement template
                 product.setProductCategory(category);
                 productService.storeProduct(product);
                 return "redirect:/productmanagement";
